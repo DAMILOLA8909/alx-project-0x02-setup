@@ -1,18 +1,22 @@
-import type { NextPage } from 'next';
+import type { NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
 import Header from '@/components/layout/Header';
 import Link from 'next/link';
 import Button from '@/components/common/Button';
 import PostCard from '@/components/common/PostCard';
 import { type PostProps } from '@/interfaces';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-const PostsPage: NextPage = () => {
-  const [posts, setPosts] = useState<PostProps[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+interface PostsPageProps {
+  initialPosts: PostProps[];
+}
+
+const PostsPage: NextPage<PostsPageProps> = ({ initialPosts }) => {
+  const [posts, setPosts] = useState<PostProps[]>(initialPosts);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch posts from JSONPlaceholder API
+  // Fetch posts from JSONPlaceholder API (client-side for refresh)
   const fetchPosts = async () => {
     try {
       setLoading(true);
@@ -41,10 +45,6 @@ const PostsPage: NextPage = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -76,7 +76,7 @@ const PostsPage: NextPage = () => {
               This page displays posts fetched from JSONPlaceholder API using the PostCard component.
             </p>
             <p className="text-gray-600">
-              Each PostCard shows the post title, content, user information, and interactive elements.
+              Posts are pre-loaded at build time using getStaticProps and can be refreshed client-side.
             </p>
           </div>
 
@@ -109,7 +109,7 @@ const PostsPage: NextPage = () => {
           )}
 
           {/* Posts Grid */}
-          {!loading && !error && (
+          {!loading && (
             <section className="mb-8">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-semibold text-gray-700">
@@ -179,6 +179,43 @@ const PostsPage: NextPage = () => {
       </main>
     </div>
   );
+};
+
+// Static Site Generation with getStaticProps
+export const getStaticProps: GetStaticProps = async () => {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch posts');
+    }
+    
+    const data = await response.json();
+    
+    // Transform the data to match our PostProps interface
+    const initialPosts = data.map((post: any) => ({
+      id: post.id,
+      title: post.title,
+      content: post.body, // JSONPlaceholder uses 'body' instead of 'content'
+      userId: post.userId
+    }));
+
+    return {
+      props: {
+        initialPosts: initialPosts.slice(0, 12) // Only load first 12 posts initially
+      },
+      revalidate: 3600 // Revalidate every hour (optional)
+    };
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    
+    // Return empty array as fallback
+    return {
+      props: {
+        initialPosts: []
+      }
+    };
+  }
 };
 
 export default PostsPage;
