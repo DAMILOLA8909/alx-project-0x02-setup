@@ -1,3 +1,19 @@
+// Post component interfaces
+export interface PostProps {
+  id: number;
+  title: string;
+  content: string;
+  userId: number;
+}
+
+export interface PostCardProps {
+  id: number;
+  title: string;
+  content: string;
+  userId: number;
+  className?: string;
+}
+
 // Button component interfaces
 export interface ButtonProps {
   children: React.ReactNode;
