@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Header from '../components/layout/Header';
 import Link from 'next/link';
-import Card from '../components/common/Card';
+import Card from '@/components/common/Card';
 
 const HomePage: NextPage = () => {
   return (
