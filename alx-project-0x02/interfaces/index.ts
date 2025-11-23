@@ -1,3 +1,15 @@
+// Button component interfaces
+export interface ButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
+  size?: 'small' | 'medium' | 'large';
+  shape?: 'rounded-sm' | 'rounded-md' | 'rounded-full';
+  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'outline';
+  disabled?: boolean;
+  className?: string;
+}
+
 // Card component interfaces
 export interface CardProps {
   title: string;
