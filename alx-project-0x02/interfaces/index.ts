@@ -6,6 +6,20 @@ export interface CardProps {
   className?: string;
 }
 
+// Post Modal interfaces
+export interface PostData {
+  id: number;
+  title: string;
+  content: string;
+  createdAt: Date;
+}
+
+export interface PostModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (post: Omit<PostData, 'id' | 'createdAt'>) => void;
+}
+
 // Existing interfaces
 export interface User {
   id: number;
