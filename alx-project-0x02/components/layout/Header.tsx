@@ -49,6 +49,16 @@ const Header: React.FC = () => {
               </li>
               <li>
                 <Link 
+                  href="/users" 
+                  className={`block py-2 px-4 rounded transition-colors ${
+                    isActive('/users') ? 'bg-blue-700 font-semibold' : 'hover:bg-blue-500'
+                  }`}
+                >
+                  Users
+                </Link>
+              </li>
+              <li>
+                <Link 
                   href="/about" 
                   className={`block py-2 px-4 rounded transition-colors ${
                     isActive('/about') ? 'bg-blue-700 font-semibold' : 'hover:bg-blue-500'

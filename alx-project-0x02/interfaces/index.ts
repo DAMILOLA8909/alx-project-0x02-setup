@@ -1,3 +1,47 @@
+// User component interfaces
+export interface UserProps {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+  address: {
+    street: string;
+    suite: string;
+    city: string;
+    zipcode: string;
+    geo: {
+      lat: string;
+      lng: string;
+    };
+  };
+  phone: string;
+  website: string;
+  company: {
+    name: string;
+    catchPhrase: string;
+    bs: string;
+  };
+}
+
+export interface UserCardProps {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+  address: {
+    street: string;
+    suite: string;
+    city: string;
+    zipcode: string;
+  };
+  phone: string;
+  website: string;
+  company: {
+    name: string;
+  };
+  className?: string;
+}
+
 // Post component interfaces
 export interface PostProps {
   id: number;
@@ -48,7 +92,7 @@ export interface PostModalProps {
   onSave: (post: Omit<PostData, 'id' | 'createdAt'>) => void;
 }
 
-// Existing interfaces
+// Existing interfaces (keep these)
 export interface User {
   id: number;
   name: string;
