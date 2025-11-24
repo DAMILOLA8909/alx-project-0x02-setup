@@ -161,8 +161,8 @@ const UsersPage: NextPage<UsersPageProps> = ({ initialUsers }) => {
   );
 };
 
-// Static Site Generation with getStaticProps
-export const getStaticProps: GetStaticProps = async () => {
+// Static Site Generation with getStaticProps()
+export const getStaticProps = async () => {
   try {
     const response = await fetch('https://jsonplaceholder.typicode.com/users');
     
